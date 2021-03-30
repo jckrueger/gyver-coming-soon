@@ -24,8 +24,9 @@
 #    and best practices on handling the access key credentials.
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: 
+      - master
 
 name: Deploy to Amazon ECS
 
@@ -69,13 +70,13 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition.json
-        container-name: sample-app
+        container-name: gyver-coming-soon-Container
         image: ${{ steps.build-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: sample-app-service
-        cluster: default
+        service: gyver-coming-soon-service
+        cluster: gyver-coming-soon-cluster
         wait-for-service-stability: true
